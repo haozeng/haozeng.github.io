@@ -1,7 +1,9 @@
 ---
 layout: post
-title: "test"
+title: "Extract Values from Javascript Nested Object"
 date: 2014-03-26 11:00:09 -0700
 comments: true
-categories: TEST
+categories: [javascript, node.js]
 ---
+
+some test shit
