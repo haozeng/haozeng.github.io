@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Javascript | Hao's Blog]]></title>
   <link href="http://haozeng.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://haozeng.github.io/"/>
-  <updated>2014-03-26T12:02:00-07:00</updated>
+  <updated>2014-03-26T12:09:30-07:00</updated>
   <id>http://haozeng.github.io/</id>
   <author>
     <name><![CDATA[Hao Zeng]]></name>
@@ -18,7 +18,78 @@
     <link href="http://haozeng.github.io/blog/2014/03/26/test/"/>
     <updated>2014-03-26T11:00:09-07:00</updated>
     <id>http://haozeng.github.io/blog/2014/03/26/test</id>
-    <content type="html"><![CDATA[<p>some test shit</p>
+    <content type="html"><![CDATA[<p>Underscore doesn&rsquo;t support search and find nested value in a nested javascript object,
+So I went ahead and built a version for that:</p>
+
+<p>``` coffeescript</p>
+
+<h1>This helper is served to relieve the efforts of building up external formatted object through</h1>
+
+<h1>nested object which we retrieve from mongoDB or http params</h1>
+
+<h1>Usage:</h1>
+
+<h1>SampleData =</h1>
+
+<h1>token: &lsquo;1234&rsquo;,</h1>
+
+<h1>user:</h1>
+
+<h1>token: &lsquo;4321&rsquo;</h1>
+
+<h1>contact:</h1>
+
+<h1>address:</h1>
+
+<h1>city: &lsquo;Emeryville&rsquo;</h1>
+
+<h1>state: &lsquo;CA&rsquo;</h1>
+
+<h1>zip_code: &lsquo;51421&rsquo;</h1>
+
+<h1>All we need to do is</h1>
+
+<h1>Helper.DataPicker(SampleData, &lsquo;token&rsquo;, &lsquo;user.token&rsquo;, &lsquo;city&rsquo;)</h1>
+
+<h1>For nested key with the duplicated names, we need to nest the top parents nodes as well.</h1>
+
+<h1>For example &lsquo;user.token&rsquo;</h1>
+
+<p>_ = require &lsquo;underscore&rsquo;</p>
+
+<p>DataPicker = (data, attributes&hellip;) &ndash;></p>
+
+<p>  result = {}</p>
+
+<p>  # Loop through each pair of data and find the matching attributes
+  _.each data, (value, key, list) &ndash;></p>
+
+<pre><code>if _.contains(attributes, key) and (!_.isObject(list[key]) or _.isArray(value))
+  result[key] ||= value
+else if _.isObject(value) and !_.isArray(value)
+  for subKey, subValue of value
+    arguments.callee(subValue, subKey, value)
+</code></pre>
+
+<p>  # Loop through nested cases like user.token, merchant.token
+  _.each attributes, (attribute) &ndash;></p>
+
+<pre><code>if attribute.match(/^[a-z]+[.]/)
+  keys = attribute.split('.')
+  element = keys.join('_')
+  nestedElement = _.reduce(keys, (memo, num) -&gt;
+    if !_.isUndefined(memo)
+      memo = memo[num]
+  , data)
+
+  result[element] = nestedElement if !_.isUndefined(nestedElement)
+</code></pre>
+
+<p>  return result</p>
+
+<p>module.exports = DataPicker</p>
+
+<p>```</p>
 ]]></content>
   </entry>
   

@@ -9,8 +9,12 @@
   <meta name="author" content="Hao Zeng">
 
   
-  <meta name="description" content="some test shit
-">
+  <meta name="description" content="Underscore doesn&rsquo;t support search and find nested value in a nested javascript object,
+So I went ahead and built a version for that: 1
+2
+3
+4
+5 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,7 +97,105 @@
   </header>
 
 
-<div class="entry-content"><p>some test shit</p>
+<div class="entry-content"><p>Underscore doesn&rsquo;t support search and find nested value in a nested javascript object,
+So I went ahead and built a version for that:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="c1"># This helper is served to relieve the efforts of building up external formatted object through</span>
+</span><span class='line'><span class="c1"># nested object which we retrieve from mongoDB or http params</span>
+</span><span class='line'><span class="c1"># Usage:</span>
+</span><span class='line'><span class="c1">#     SampleData =</span>
+</span><span class='line'><span class="c1">#       token: &#39;1234&#39;,</span>
+</span><span class='line'><span class="c1">#       user:</span>
+</span><span class='line'><span class="c1">#         token: &#39;4321&#39;</span>
+</span><span class='line'><span class="c1">#       contact:</span>
+</span><span class='line'><span class="c1">#         address:</span>
+</span><span class='line'><span class="c1">#           city: &#39;Emeryville&#39;</span>
+</span><span class='line'><span class="c1">#           state: &#39;CA&#39;</span>
+</span><span class='line'><span class="c1">#           zip_code: &#39;51421&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># All we need to do is</span>
+</span><span class='line'><span class="c1"># Helper.DataPicker(SampleData, &#39;token&#39;, &#39;user.token&#39;, &#39;city&#39;)</span>
+</span><span class='line'><span class="c1"># For nested key with the duplicated names, we need to nest the top parents nodes as well.</span>
+</span><span class='line'><span class="c1"># For example &#39;user.token&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">_ = </span><span class="nx">require</span> <span class="s">&#39;underscore&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">DataPicker = </span><span class="nf">(data, attributes...) -&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nv">result = </span><span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Loop through each pair of data and find the matching attributes</span>
+</span><span class='line'>  <span class="nx">_</span><span class="p">.</span><span class="nx">each</span> <span class="nx">data</span><span class="p">,</span> <span class="nf">(value, key, list) -&gt;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="nx">_</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="nx">attributes</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="o">and</span> <span class="p">(</span><span class="o">!</span><span class="nx">_</span><span class="p">.</span><span class="nx">isObject</span><span class="p">(</span><span class="nx">list</span><span class="p">[</span><span class="nx">key</span><span class="p">])</span> <span class="o">or</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">value</span><span class="p">))</span>
+</span><span class='line'>      <span class="nx">result</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">||=</span> <span class="nx">value</span>
+</span><span class='line'>    <span class="k">else</span> <span class="k">if</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isObject</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="o">and</span> <span class="o">!</span><span class="nx">_</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">for</span> <span class="nx">subKey</span><span class="p">,</span> <span class="nx">subValue</span> <span class="k">of</span> <span class="nx">value</span>
+</span><span class='line'>        <span class="nx">arguments</span><span class="p">.</span><span class="nx">callee</span><span class="p">(</span><span class="nx">subValue</span><span class="p">,</span> <span class="nx">subKey</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Loop through nested cases like user.token, merchant.token</span>
+</span><span class='line'>  <span class="nx">_</span><span class="p">.</span><span class="nx">each</span> <span class="nx">attributes</span><span class="p">,</span> <span class="nf">(attribute) -&gt;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="nx">attribute</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="sr">/^[a-z]+[.]/</span><span class="p">)</span>
+</span><span class='line'>      <span class="nv">keys = </span><span class="nx">attribute</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)</span>
+</span><span class='line'>      <span class="nv">element = </span><span class="nx">keys</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">)</span>
+</span><span class='line'>      <span class="nv">nestedElement = </span><span class="nx">_</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="nx">keys</span><span class="p">,</span> <span class="nf">(memo, num) -&gt;</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">!</span><span class="nx">_</span><span class="p">.</span><span class="nx">isUndefined</span><span class="p">(</span><span class="nx">memo</span><span class="p">)</span>
+</span><span class='line'>          <span class="nv">memo = </span><span class="nx">memo</span><span class="p">[</span><span class="nx">num</span><span class="p">]</span>
+</span><span class='line'>      <span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">result</span><span class="p">[</span><span class="nx">element</span><span class="p">]</span> <span class="o">=</span> <span class="nx">nestedElement</span> <span class="k">if</span> <span class="o">!</span><span class="nx">_</span><span class="p">.</span><span class="nx">isUndefined</span><span class="p">(</span><span class="nx">nestedElement</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">result</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">module.exports = </span><span class="nx">DataPicker</span>
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 
