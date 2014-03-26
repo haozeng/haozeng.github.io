@@ -6,4 +6,58 @@ comments: true
 categories: [javascript, node.js]
 ---
 
-some test shit
+Underscore doesn't support search and find nested value in a nested javascript object,
+So I went ahead and built a version for that:
+
+
+``` coffeescript
+
+# This helper is served to relieve the efforts of building up external formatted object through
+# nested object which we retrieve from mongoDB or http params
+# Usage:
+#     SampleData =
+#       token: '1234',
+#       user:
+#         token: '4321'
+#       contact:
+#         address:
+#           city: 'Emeryville'
+#           state: 'CA'
+#           zip_code: '51421'
+
+# All we need to do is
+# Helper.DataPicker(SampleData, 'token', 'user.token', 'city')
+# For nested key with the duplicated names, we need to nest the top parents nodes as well.
+# For example 'user.token'
+
+_ = require 'underscore'
+
+DataPicker = (data, attributes...) ->
+
+  result = {}
+
+  # Loop through each pair of data and find the matching attributes
+  _.each data, (value, key, list) ->
+    if _.contains(attributes, key) and (!_.isObject(list[key]) or _.isArray(value))
+      result[key] ||= value
+    else if _.isObject(value) and !_.isArray(value)
+      for subKey, subValue of value
+        arguments.callee(subValue, subKey, value)
+
+  # Loop through nested cases like user.token, merchant.token
+  _.each attributes, (attribute) ->
+    if attribute.match(/^[a-z]+[.]/)
+      keys = attribute.split('.')
+      element = keys.join('_')
+      nestedElement = _.reduce(keys, (memo, num) ->
+        if !_.isUndefined(memo)
+          memo = memo[num]
+      , data)
+
+      result[element] = nestedElement if !_.isUndefined(nestedElement)
+
+  return result
+
+module.exports = DataPicker
+
+```

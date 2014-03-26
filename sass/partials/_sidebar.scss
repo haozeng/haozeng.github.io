@@ -2,3 +2,14 @@
 @import "sidebar/googleplus";
 @import "sidebar/pinboard";
 @import "sidebar/delicious";
+
+.bio {
+  p {
+    margin-bottom: 2px;
+    text-align: center;
+  }
+
+  img {
+    float: right;
+  }
+}
