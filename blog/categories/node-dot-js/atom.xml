@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: node.js | Hao's Blog]]></title>
-  <link href="http://yoursite.com/blog/categories/node-dot-js/atom.xml" rel="self"/>
-  <link href="http://yoursite.com/"/>
-  <updated>2014-03-26T11:59:45-07:00</updated>
-  <id>http://yoursite.com/</id>
+  <link href="http://haozeng.github.io/blog/categories/node-dot-js/atom.xml" rel="self"/>
+  <link href="http://haozeng.github.io/"/>
+  <updated>2014-03-26T12:02:00-07:00</updated>
+  <id>http://haozeng.github.io/</id>
   <author>
     <name><![CDATA[Hao Zeng]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Extract Values From Javascript Nested Object]]></title>
-    <link href="http://yoursite.com/blog/2014/03/26/test/"/>
+    <link href="http://haozeng.github.io/blog/2014/03/26/test/"/>
     <updated>2014-03-26T11:00:09-07:00</updated>
-    <id>http://yoursite.com/blog/2014/03/26/test</id>
+    <id>http://haozeng.github.io/blog/2014/03/26/test</id>
     <content type="html"><![CDATA[<p>some test shit</p>
 ]]></content>
   </entry>

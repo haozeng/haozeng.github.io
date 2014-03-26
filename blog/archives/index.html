@@ -10,7 +10,7 @@
 
   
   <meta name="description" content="Blog Archive 2014 Extract Values From Javascript Nested Object
-Mar 26 2014 posted in javascript, node.js Recent Posts Extract Values From Javascript &hellip;">
+Mar 26 2014 posted in javascript, node.js About Me A little something about me. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@ Mar 26 2014 posted in javascript, node.js Recent Posts Extract Values From Javas
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://yoursite.com/blog/archives">
+  <link rel="canonical" href="http://haozeng.github.io/blog/archives">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Hao's Blog" type="application/atom+xml">
@@ -39,7 +39,7 @@ Mar 26 2014 posted in javascript, node.js Recent Posts Extract Values From Javas
   <header role="banner"><hgroup>
   <h1><a href="/">Hao's Blog</a></h1>
   
-    <h2>Ruby/Node Developer</h2>
+    <h2>Ruby/Node.js Developer</h2>
   
 </hgroup>
 
@@ -51,7 +51,7 @@ Mar 26 2014 posted in javascript, node.js Recent Posts Extract Values From Javas
   
 <form action="https://www.google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:yoursite.com" />
+    <input type="hidden" name="q" value="site:haozeng.github.io" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -102,6 +102,10 @@ Mar 26 2014 posted in javascript, node.js Recent Posts Extract Values From Javas
 <aside class="sidebar">
   
     <section>
+  <h1>About Me</h1>
+  <p>A little something about me.</p>
+</section>
+<section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
@@ -111,39 +115,6 @@ Mar 26 2014 posted in javascript, node.js Recent Posts Extract Values From Javas
     
   </ul>
 </section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
-  </ul>
-  
-  <a href="https://github.com/haozeng">@haozeng</a> on GitHub
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'haozeng',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-
 
   
 </aside>
