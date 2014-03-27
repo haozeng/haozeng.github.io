@@ -4,7 +4,7 @@
   <title><![CDATA[Hao's Blog]]></title>
   <link href="http://haozeng.github.io/atom.xml" rel="self"/>
   <link href="http://haozeng.github.io/"/>
-  <updated>2014-03-27T09:56:04-07:00</updated>
+  <updated>2014-03-27T09:57:15-07:00</updated>
   <id>http://haozeng.github.io/</id>
   <author>
     <name><![CDATA[Hao Zeng]]></name>
@@ -201,7 +201,7 @@ tree objects. Here is the an exmaple which DFS and BFS are performed using ruby.
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">no_children?</span>
-</span><span class='line'>    <span class="vi">@left</span><span class="o">.</span><span class="n">nil?</span> <span class="o">&amp;&amp;</span> <span class="vi">@right</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>    <span class="o">!</span><span class="n">children?</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span><span class='line'>
