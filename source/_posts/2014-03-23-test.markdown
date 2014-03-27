@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Extract Values from Javascript Nested Object"
-date: 2014-03-26 11:00:09 -0700
+date: 2014-03-23 11:00:09 -0700
 comments: true
 categories: [javascript, node.js]
 ---
