@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Tree | Hao's Blog]]></title>
+  <link href="http://haozeng.github.io/blog/categories/tree/atom.xml" rel="self"/>
+  <link href="http://haozeng.github.io/"/>
+  <updated>2014-03-27T09:59:06-07:00</updated>
+  <id>http://haozeng.github.io/</id>
+  <author>
+    <name><![CDATA[Hao Zeng]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[DFS and BFS in Ruby Using Simple Tree Objects]]></title>
+    <link href="http://haozeng.github.io/blog/2014/01/05/trees-in-ruby/"/>
+    <updated>2014-01-05T08:54:11-08:00</updated>
+    <id>http://haozeng.github.io/blog/2014/01/05/trees-in-ruby</id>
+    <content type="html"><![CDATA[<p>In Ruby, there is no existing pre-built tree structures available, but it is pretty easy to define
+tree objects. Here is the an exmaple which DFS and BFS are performed using ruby.</p>
+
+<p>``` ruby</p>
+
+<p>class Node
+  attr_accessor :value, :left, :right, :name</p>
+
+<p>  def initialize(options={})</p>
+
+<pre><code>@value = options[:value]
+@name = options[:name]
+</code></pre>
+
+<p>  end</p>
+
+<p>  def children</p>
+
+<pre><code>[@left, @right].compact
+</code></pre>
+
+<p>  end</p>
+
+<p>  def children?</p>
+
+<pre><code>@left &amp;&amp; @right
+</code></pre>
+
+<p>  end</p>
+
+<p>  def no_children?</p>
+
+<pre><code>!children?
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>root = Node.new({:value => 1, :name => &lsquo;root&rsquo;})
+child_1 = Node.new({:value => 2, :name => &lsquo;child_1&rsquo;})
+child_2 = Node.new({:value => 3, :name => &lsquo;child_2&rsquo;})
+grand_child_1 = Node.new({:value => 4, :name => &lsquo;grand_child_1&rsquo;})
+grand_grand_child_1 = Node.new({:value => 5, :name => &lsquo;grand_grand_child_1&rsquo;})
+grand_child_1.left = grand_grand_child_1
+child_1.left = grand_child_1
+root.left = child_1
+root.right = child_2</p>
+
+<p>def bfs(node)
+  queue = []
+  queue.push(node)</p>
+
+<p>  while(queue.size != 0)</p>
+
+<pre><code>n = queue.shift
+puts n.value
+n.children.each do |child|
+  queue.push(child)
+end
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>bfs(root)</p>
+
+<p>puts &lsquo;~~~~~~~~~~~~~~~~~~~~~~~~~~~&rsquo;</p>
+
+<p>def dfs(node)
+  puts node.value
+  node.children.each do |child|</p>
+
+<pre><code>dfs(child)
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>dfs(root)</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>
