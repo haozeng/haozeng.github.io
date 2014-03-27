@@ -4,7 +4,7 @@
   <title><![CDATA[Hao's Blog]]></title>
   <link href="http://haozeng.github.io/atom.xml" rel="self"/>
   <link href="http://haozeng.github.io/"/>
-  <updated>2014-03-27T08:58:37-07:00</updated>
+  <updated>2014-03-27T09:56:04-07:00</updated>
   <id>http://haozeng.github.io/</id>
   <author>
     <name><![CDATA[Hao Zeng]]></name>
@@ -115,6 +115,131 @@ So I went ahead and built a version for that:</p>
 </span><span class='line'>  <span class="k">return</span> <span class="nx">result</span>
 </span><span class='line'>
 </span><span class='line'><span class="nv">module.exports = </span><span class="nx">DataPicker</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Trees_in_ruby]]></title>
+    <link href="http://haozeng.github.io/blog/2014/01/05/trees-in-ruby/"/>
+    <updated>2014-01-05T08:54:11-08:00</updated>
+    <id>http://haozeng.github.io/blog/2014/01/05/trees-in-ruby</id>
+    <content type="html"><![CDATA[<p>In Ruby, there is no existing pre-built tree structures available, but it is pretty easy to define
+tree objects. Here is the an exmaple which DFS and BFS are performed using ruby.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Node</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:value</span><span class="p">,</span> <span class="ss">:left</span><span class="p">,</span> <span class="ss">:right</span><span class="p">,</span> <span class="ss">:name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="p">{})</span>
+</span><span class='line'>    <span class="vi">@value</span> <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:value</span><span class="o">]</span>
+</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="n">options</span><span class="o">[</span><span class="ss">:name</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">children</span>
+</span><span class='line'>    <span class="o">[</span><span class="vi">@left</span><span class="p">,</span> <span class="vi">@right</span><span class="o">].</span><span class="n">compact</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">children?</span>
+</span><span class='line'>    <span class="vi">@left</span> <span class="o">&amp;&amp;</span> <span class="vi">@right</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">no_children?</span>
+</span><span class='line'>    <span class="vi">@left</span><span class="o">.</span><span class="n">nil?</span> <span class="o">&amp;&amp;</span> <span class="vi">@right</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">root</span> <span class="o">=</span> <span class="no">Node</span><span class="o">.</span><span class="n">new</span><span class="p">({</span><span class="ss">:value</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">&#39;root&#39;</span><span class="p">})</span>
+</span><span class='line'><span class="n">child_1</span> <span class="o">=</span> <span class="no">Node</span><span class="o">.</span><span class="n">new</span><span class="p">({</span><span class="ss">:value</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">&#39;child_1&#39;</span><span class="p">})</span>
+</span><span class='line'><span class="n">child_2</span> <span class="o">=</span> <span class="no">Node</span><span class="o">.</span><span class="n">new</span><span class="p">({</span><span class="ss">:value</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">&#39;child_2&#39;</span><span class="p">})</span>
+</span><span class='line'><span class="n">grand_child_1</span> <span class="o">=</span> <span class="no">Node</span><span class="o">.</span><span class="n">new</span><span class="p">({</span><span class="ss">:value</span> <span class="o">=&gt;</span> <span class="mi">4</span><span class="p">,</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">&#39;grand_child_1&#39;</span><span class="p">})</span>
+</span><span class='line'><span class="n">grand_grand_child_1</span> <span class="o">=</span> <span class="no">Node</span><span class="o">.</span><span class="n">new</span><span class="p">({</span><span class="ss">:value</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="p">,</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">&#39;grand_grand_child_1&#39;</span><span class="p">})</span>
+</span><span class='line'><span class="n">grand_child_1</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">grand_grand_child_1</span>
+</span><span class='line'><span class="n">child_1</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">grand_child_1</span>
+</span><span class='line'><span class="n">root</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">child_1</span>
+</span><span class='line'><span class="n">root</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">child_2</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">bfs</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">queue</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">queue</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">while</span><span class="p">(</span><span class="n">queue</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">n</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">shift</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="n">n</span><span class="o">.</span><span class="n">value</span>
+</span><span class='line'>    <span class="n">n</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">child</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">queue</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">bfs</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="s1">&#39;~~~~~~~~~~~~~~~~~~~~~~~~~~~&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">node</span><span class="o">.</span><span class="n">value</span>
+</span><span class='line'>  <span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">child</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">dfs</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
