@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Javascript | Hao's Blog]]></title>
   <link href="http://haozeng.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://haozeng.github.io/"/>
-  <updated>2014-03-27T08:57:28-07:00</updated>
+  <updated>2014-03-27T08:58:37-07:00</updated>
   <id>http://haozeng.github.io/</id>
   <author>
     <name><![CDATA[Hao Zeng]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Extract Values From Javascript Nested Object]]></title>
-    <link href="http://haozeng.github.io/blog/2014/03/26/test/"/>
-    <updated>2014-03-26T11:00:09-07:00</updated>
-    <id>http://haozeng.github.io/blog/2014/03/26/test</id>
+    <link href="http://haozeng.github.io/blog/2014/03/23/test/"/>
+    <updated>2014-03-23T11:00:09-07:00</updated>
+    <id>http://haozeng.github.io/blog/2014/03/23/test</id>
     <content type="html"><![CDATA[<p>Underscore doesn&rsquo;t support search and find nested value in a nested javascript object,
 So I went ahead and built a version for that:</p>
 
