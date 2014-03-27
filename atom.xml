@@ -4,7 +4,7 @@
   <title><![CDATA[Hao's Blog]]></title>
   <link href="http://haozeng.github.io/atom.xml" rel="self"/>
   <link href="http://haozeng.github.io/"/>
-  <updated>2014-03-27T09:57:15-07:00</updated>
+  <updated>2014-03-27T09:58:10-07:00</updated>
   <id>http://haozeng.github.io/</id>
   <author>
     <name><![CDATA[Hao Zeng]]></name>
@@ -121,7 +121,7 @@ So I went ahead and built a version for that:</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Trees_in_ruby]]></title>
+    <title type="html"><![CDATA[DFS and BFS in Ruby Using Simple Tree Objects]]></title>
     <link href="http://haozeng.github.io/blog/2014/01/05/trees-in-ruby/"/>
     <updated>2014-01-05T08:54:11-08:00</updated>
     <id>http://haozeng.github.io/blog/2014/01/05/trees-in-ruby</id>
