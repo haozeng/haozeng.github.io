@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "trees_in_ruby"
+title: "DFS and BFS in ruby using simple tree objects"
 date: 2014-01-05 09:54:11 -0700
 comments: true
-categories:
+categories: [ruby, tree, search]
 ---
 
 In Ruby, there is no existing pre-built tree structures available, but it is pretty easy to define
