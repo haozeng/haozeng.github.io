@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Javascript | Hao's Blog]]></title>
   <link href="http://haozeng.github.io/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://haozeng.github.io/"/>
-  <updated>2014-03-27T20:39:02-07:00</updated>
+  <updated>2014-03-27T20:39:58-07:00</updated>
   <id>http://haozeng.github.io/</id>
   <author>
     <name><![CDATA[Hao Zeng]]></name>
@@ -12,6 +12,107 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rotx and Compromise]]></title>
+    <link href="http://haozeng.github.io/blog/2014/03/27/rotx-and-compromise/"/>
+    <updated>2014-03-27T20:36:18-07:00</updated>
+    <id>http://haozeng.github.io/blog/2014/03/27/rotx-and-compromise</id>
+    <content type="html"><![CDATA[<p>Rotx exercise:</p>
+
+<p>``` ruby
+def rotx(x, string, encrypt=true)
+  letters = (&lsquo;a&rsquo;..&lsquo;z&rsquo;).to_a</p>
+
+<p>  string.split(&lsquo;&rsquo;).map! do |letter|</p>
+
+<pre><code>if letter.match(/[a-zA-Z]/)
+  # Looking for index
+  index = letter == letter.downcase ? letters.index(letter) : letters.index(letter.downcase)
+
+  # Building rotated index either by moving forward or backward
+  rotated_index = encrypt ? (index + x)%26 : (index - x)%26
+
+  # Building new letter based on rotated index
+  letter == letter.downcase ? letters[rotated_index] : letters[rotated_index].upcase
+else
+  letter
+end
+</code></pre>
+
+<p>  end.join
+end</p>
+
+<p>describe &lsquo;Test #rotx&rsquo; do
+  it &lsquo;should rotate the string and encrypt as default&rsquo; do</p>
+
+<pre><code>rotx(10, 'Hello, World').should eql 'Rovvy, Gybvn'
+</code></pre>
+
+<p>  end</p>
+
+<p>  it &lsquo;should rotate back the string if encrypt is false&rsquo; do</p>
+
+<pre><code>rotx(10, 'Rovvy, Gybvn', false).should eql 'Hello, World'
+</code></pre>
+
+<p>  end</p>
+
+<p>  it &lsquo;should return the same results if roration number is added 26&rsquo; do</p>
+
+<pre><code>rotx(36, 'Hello, World').should eql 'Rovvy, Gybvn'
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>```</p>
+
+<p>A simple compromise implementation, and this will build the foundation in removing callbacks in node.js app.</p>
+
+<p>``` javascript
+Promise = function () {</p>
+
+<p>  var list = [];</p>
+
+<p>  this.success = function(fn) {</p>
+
+<pre><code>fn.call(this,list[0]);
+</code></pre>
+
+<p>  };</p>
+
+<p>  this.resolve = function(input) {</p>
+
+<pre><code>if (list.length === 0)
+  {
+    list.push(input);
+  }
+else
+  {
+    console.log('error');
+  }
+</code></pre>
+
+<p>  }
+}</p>
+
+<p>var foo = new Promise();
+var bar = new Promise();</p>
+
+<p>foo.resolve(&lsquo;hello&rsquo;);</p>
+
+<p>setTimeout(function(){
+  bar.resolve(&lsquo;world&rsquo;);
+}, 500);</p>
+
+<p>foo.success(function(result){
+  console.log(result);
+});</p>
+
+<p>```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Extract Values From Javascript Nested Object]]></title>
