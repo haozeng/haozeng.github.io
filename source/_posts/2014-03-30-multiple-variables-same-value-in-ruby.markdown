@@ -3,7 +3,7 @@ layout: post
 title: "Create multiple varariables with differentreferences in ruby"
 date: 2013-01-30 20:25:50 -0700
 comments: true
-categories:
+categories: [ruby]
 ---
 
 Today I had a bug in ruby which I do not quite understand, and it turned out to be reference issue in ruby.
