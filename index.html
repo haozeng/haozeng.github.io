@@ -566,6 +566,68 @@ tree objects. Here is the an exmaple which DFS and BFS are performed using ruby.
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/30/multiple-variables-same-value-in-ruby/">Create Multiple Varariables With Differentreferences in Ruby</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-30T19:25:50-08:00" pubdate data-updated="true">Jan 30<span>th</span>, 2013</time>
+        
+           | <a href="/blog/2013/01/30/multiple-variables-same-value-in-ruby/#disqus_thread"
+             data-disqus-identifier="http://haozeng.github.io/blog/2013/01/30/multiple-variables-same-value-in-ruby/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Today I had a bug in ruby which I do not quite understand, and it turned out to be reference issue in ruby.</p>
+
+<p>First, I tried something like this and intended to create 4 variables for the same values, but different objects</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="p">,</span><span class="n">d</span> <span class="o">=</span> <span class="o">[</span><span class="no">Object</span><span class="o">.</span><span class="n">new</span><span class="o">]</span> <span class="o">*</span> <span class="mi">4</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This turns out to be a, b, c, d refers to the same object</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">object_id</span> <span class="o">==</span> <span class="n">b</span><span class="o">.</span><span class="n">object_id</span>
+</span><span class='line'><span class="c1">#=&gt; true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So the correct way should be:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="no">Object</span><span class="o">.</span><span class="n">new</span><span class="p">,</span> <span class="no">Object</span><span class="o">.</span><span class="n">new</span><span class="p">,</span> <span class="no">Object</span><span class="o">.</span><span class="n">new</span><span class="p">,</span> <span class="no">Object</span><span class="o">.</span><span class="n">new</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
@@ -598,6 +660,10 @@ tree objects. Here is the an exmaple which DFS and BFS are performed using ruby.
     
       <li class="post">
         <a href="/blog/2014/01/05/trees-in-ruby/">DFS and BFS in Ruby Using Simple Tree Objects</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/30/multiple-variables-same-value-in-ruby/">Create Multiple Varariables With Differentreferences in Ruby</a>
       </li>
     
   </ul>
