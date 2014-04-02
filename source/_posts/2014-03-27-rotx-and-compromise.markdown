@@ -48,23 +48,35 @@ A simple compromise implementation, and this will build the foundation in removi
 
 ``` javascript
 Promise = function () {
+  this.value;
+  this.callbacks = [];
+};
 
-  var list = [];
-
-  this.success = function(fn) {
-    fn.call(this,list[0]);
-  };
-
-  this.resolve = function(input) {
-    if (list.length === 0)
-      {
-        list.push(input);
-      }
-    else
-      {
-        console.log('error');
-      }
+Promise.prototype.resolve = function(result) {
+  if (this.value) {
+    throw new Error('A promise should only be able to be resolved once !');
+  } else {
+    this.value = result;
   }
+  if (this.callbacks.length > 0) {
+    this.triggerCallbacks();
+  }
+};
+
+Promise.prototype.success = function(fn) {
+  this.callbacks.push(fn);
+
+  if (this.value) {
+    this.triggerCallbacks();
+  }
+};
+
+Promise.prototype.triggerCallbacks = function() {
+  var self = this;
+
+  this.callbacks.forEach(function(callback) {
+    callback.call(self,self.value);
+  });
 }
 
 var foo = new Promise();
@@ -80,4 +92,13 @@ foo.success(function(result){
   console.log(result);
 });
 
+bar.success(function(result){
+  console.log(result);
+});
+
+// Throw errors if one promise tries to resolve twice
+
+var foobar = new Promise();
+foobar.resolve('hello');
+foobar.resolve('world');
 ```
