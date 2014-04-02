@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | Hao's Blog]]></title>
   <link href="http://haozeng.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://haozeng.github.io/"/>
-  <updated>2014-03-30T20:39:25-07:00</updated>
+  <updated>2014-04-01T20:41:16-07:00</updated>
   <id>http://haozeng.github.io/</id>
   <author>
     <name><![CDATA[Hao Zeng]]></name>
@@ -71,30 +71,51 @@ end</p>
 <p>A simple compromise implementation, and this will build the foundation in removing callbacks in node.js app.</p>
 
 <p>``` javascript
-Promise = function () {</p>
+Promise = function () {
+  this.value;
+  this.callbacks = [];
+};</p>
 
-<p>  var list = [];</p>
+<p>Promise.prototype.resolve = function(result) {
+  if (this.value) {</p>
 
-<p>  this.success = function(fn) {</p>
-
-<pre><code>fn.call(this,list[0]);
+<pre><code>throw new Error('A promise should only be able to be resolved once !');
 </code></pre>
 
-<p>  };</p>
+<p>  } else {</p>
 
-<p>  this.resolve = function(input) {</p>
-
-<pre><code>if (list.length === 0)
-  {
-    list.push(input);
-  }
-else
-  {
-    console.log('error');
-  }
+<pre><code>this.value = result;
 </code></pre>
 
 <p>  }
+  if (this.callbacks.length > 0) {</p>
+
+<pre><code>this.triggerCallbacks();
+</code></pre>
+
+<p>  }
+};</p>
+
+<p>Promise.prototype.success = function(fn) {
+  this.callbacks.push(fn);</p>
+
+<p>  if (this.value) {</p>
+
+<pre><code>this.triggerCallbacks();
+</code></pre>
+
+<p>  }
+};</p>
+
+<p>Promise.prototype.triggerCallbacks = function() {
+  var self = this;</p>
+
+<p>  this.callbacks.forEach(function(callback) {</p>
+
+<pre><code>callback.call(self,self.value);
+</code></pre>
+
+<p>  });
 }</p>
 
 <p>var foo = new Promise();
@@ -110,7 +131,16 @@ var bar = new Promise();</p>
   console.log(result);
 });</p>
 
-<p>```</p>
+<p>bar.success(function(result){
+  console.log(result);
+});</p>
+
+<p>// Throw errors if one promise tries to resolve twice</p>
+
+<p>var foobar = new Promise();
+foobar.resolve(&lsquo;hello&rsquo;);
+foobar.resolve(&lsquo;world&rsquo;);
+```</p>
 ]]></content>
   </entry>
   
