@@ -3,7 +3,7 @@ layout: post
 title: "twitter streaming retweets"
 date: 2014-05-08 22:46:49 -0700
 comments: true
-categories: [ruby, api]
+categories: [ruby, api, object-oriented-design]
 ---
 
 Recently, I did an exercise using twitter streaming api to generate the most recent 10
