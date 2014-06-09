@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | Hao's Blog]]></title>
   <link href="http://haozeng.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://haozeng.github.io/"/>
-  <updated>2014-04-01T20:41:16-07:00</updated>
+  <updated>2014-06-08T22:53:32-07:00</updated>
   <id>http://haozeng.github.io/</id>
   <author>
     <name><![CDATA[Hao Zeng]]></name>
@@ -12,6 +12,144 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Twitter Streaming Retweets]]></title>
+    <link href="http://haozeng.github.io/blog/2014/05/08/twitter-streaming-retweets/"/>
+    <updated>2014-05-08T22:46:49-07:00</updated>
+    <id>http://haozeng.github.io/blog/2014/05/08/twitter-streaming-retweets</id>
+    <content type="html"><![CDATA[<p>Recently, I did an exercise using twitter streaming api to generate the most recent 10
+retweets in the past n minutes.</p>
+
+<p>The program is pretty simple. It sends http streaming requests to twitter api and doing sorting in the background thread, while the main thread is printing out the most recent 10 retweets.</p>
+
+<p>```ruby</p>
+
+<p>require &lsquo;twitter&rsquo;
+require &lsquo;pry&rsquo;
+require &lsquo;pp&rsquo;</p>
+
+<p>class Streamer
+  attr_reader :client, :background_thread, :mins, :container</p>
+
+<p>  def initialize(attributes)</p>
+
+<pre><code>@client = attributes[:client]
+@mins = attributes[:mins]
+@container = attributes[:container]
+</code></pre>
+
+<p>  end</p>
+
+<p>  def stream</p>
+
+<pre><code>@background_thread = Thread.new do
+  @client.sample do |object|
+    if object.is_a?(Twitter::Tweet)
+      @container[object.created_at] ||= []
+      @container[object.created_at] &lt;&lt; object.text
+    end
+    # Container will only keep tweets which are 5 mins up to date
+    @container.keep_if {|time, tweet| @mins * 60 &gt; Time.now - time}
+  end
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  def stop</p>
+
+<pre><code>Thread.kill(@background_thread)
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>class Massager
+  attr_reader :raw_tweets, :top_tweets, :container</p>
+
+<p>  def initialize(attributes)</p>
+
+<pre><code>@container = attributes[:container]
+</code></pre>
+
+<p>  end</p>
+
+<p>  def top_tweets</p>
+
+<pre><code>build
+sort
+format
+</code></pre>
+
+<p>  end</p>
+
+<p>  private</p>
+
+<p>  def build</p>
+
+<pre><code>@raw_tweets = Hash.new(0)
+@container.values.flatten.each do |tweet|
+  @raw_tweets[tweet] += 1
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  def sort</p>
+
+<pre><code>@raw_tweets = @raw_tweets.sort{|a,b| a[1] &lt;=&gt; b[1]}.last(10)
+</code></pre>
+
+<p>  end</p>
+
+<p>  def format</p>
+
+<pre><code>@raw_tweets.inject({}) do |memo, value|
+  memo[value[1]] ||= []
+  memo[value[1]] &lt;&lt; value[0]
+  memo
+end
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>class Manager
+  attr_reader :container, :streamer, :massager</p>
+
+<p>  def initialize(attributes)</p>
+
+<pre><code>@container = {}
+@streamer = Streamer.new(container: @container, mins: attributes[:mins], client: attributes[:client])
+@massager = Massager.new(container: @container)
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>client = Twitter::Streaming::Client.new do |config|
+  config.consumer_key        = &ldquo;#&rdquo;
+  config.consumer_secret     = &ldquo;#&rdquo;
+  config.access_token        = &ldquo;#&rdquo;
+  config.access_token_secret = &ldquo;#&rdquo;
+end</p>
+
+<p>mins = 1
+manager = Manager.new(mins: mins, client: client)
+manager.streamer.stream</p>
+
+<p>start_time = Time.now
+loop do
+  window_start = Time.now &ndash; start_time > 60<em>mins ? Time.now &ndash; 60</em>mins : start_time
+  sleep(1)
+  puts &ldquo;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; Top Ten Tweets from #{window_start} To #{Time.now} &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;&rdquo;
+  pp manager.massager.top_tweets
+end</p>
+
+<p>```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rotx and Compromise]]></title>
