@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "twitter streaming retweets"
-date: 2014-05-08 22:46:49 -0700
+date: 2013-05-08 22:46:49 -0700
 comments: true
 categories: [ruby, api, object-oriented-design]
 ---

@@ -7,6 +7,5 @@ sharing: true
 footer: true
 ---
 
-<ul>
-  <li><a href="/past_projects/ivr.html">IVR</a></li>
-</ul>
+<li><a href="/past_projects/ivr.html">IVR</a></li>
+<li><a href="/past_projects/merchant_portal.html">Merchant Portal</a></li>

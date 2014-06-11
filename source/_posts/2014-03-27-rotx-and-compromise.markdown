@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "rotx and compromise"
-date: 2014-03-27 20:36:18 -0700
+date: 2013-09-27 20:36:18 -0700
 comments: true
 categories: [ruby, javascript]
 ---
