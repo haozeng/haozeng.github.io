@@ -61,11 +61,11 @@ jsPlumb.ready(function() {
 
   instance.connect({
     source:"marqeta",
-    target:"satelitte"
+    target:"satellite"
   }, stateMachineConnector);
 
   instance.connect({
-    source:"satelitte",
+    source:"satellite",
     target:"marqeta"
   }, stateMachineConnector);
 
