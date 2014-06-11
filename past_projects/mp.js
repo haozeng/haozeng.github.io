@@ -72,15 +72,15 @@ jsPlumb.ready(function() {
   // jsplumb event handlers
 
   // double click on any connection
-  instance.bind("dblclick", function(connection, originalEvent) { alert("double click on connection from " + connection.sourceId + " to " + connection.targetId); });
+  // instance.bind("dblclick", function(connection, originalEvent) { alert("double click on connection from " + connection.sourceId + " to " + connection.targetId); });
   // single click on any endpoint
-  instance.bind("endpointClick", function(endpoint, originalEvent) { alert("click on endpoint on element " + endpoint.elementId); });
+  // instance.bind("endpointClick", function(endpoint, originalEvent) { alert("click on endpoint on element " + endpoint.elementId); });
   // context menu (right click) on any component.
-  instance.bind("contextmenu", function(component, originalEvent) {
-        alert("context menu on component " + component.id);
-        originalEvent.preventDefault();
-        return false;
-    });
+  // instance.bind("contextmenu", function(component, originalEvent) {
+  //       alert("context menu on component " + component.id);
+  //       originalEvent.preventDefault();
+  //       return false;
+  //   });
 
   // make all .window divs draggable. note that here i am just using a convenience method - getSelector -
   // that enables me to reuse this code across all three libraries. In your own usage of jsPlumb you can use

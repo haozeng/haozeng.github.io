@@ -41,9 +41,6 @@ jsPlumb.ready(function() {
         location:0.7,
         id:"label",
         events:{
-          "click":function(label, evt) {
-            alert("clicked on label for connection " + label.component.id);
-          }
         }
       }],
       ["Arrow", {
@@ -51,9 +48,6 @@ jsPlumb.ready(function() {
         id:"arrow",
         location:0.5, width:20,length:20,
         events:{
-          "click":function(arrow, evt) {
-            alert("clicked on arrow for connection " + arrow.component.id);
-          }
         }
       }]
     ]
@@ -121,15 +115,15 @@ jsPlumb.ready(function() {
   // jsplumb event handlers
 
   // double click on any connection
-  instance.bind("dblclick", function(connection, originalEvent) { alert("double click on connection from " + connection.sourceId + " to " + connection.targetId); });
+  // instance.bind("dblclick", function(connection, originalEvent) { alert("double click on connection from " + connection.sourceId + " to " + connection.targetId); });
   // single click on any endpoint
-  instance.bind("endpointClick", function(endpoint, originalEvent) { alert("click on endpoint on element " + endpoint.elementId); });
+  // instance.bind("endpointClick", function(endpoint, originalEvent) { alert("click on endpoint on element " + endpoint.elementId); });
   // context menu (right click) on any component.
-  instance.bind("contextmenu", function(component, originalEvent) {
-        alert("context menu on component " + component.id);
-        originalEvent.preventDefault();
-        return false;
-    });
+  // instance.bind("contextmenu", function(component, originalEvent) {
+  //       alert("context menu on component " + component.id);
+  //       originalEvent.preventDefault();
+  //       return false;
+  //   });
 
   // make all .window divs draggable. note that here i am just using a convenience method - getSelector -
   // that enables me to reuse this code across all three libraries. In your own usage of jsPlumb you can use
