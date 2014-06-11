@@ -5,12 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Min_stack - Hao's Blog</title>
+  <title>Subset Sum Using Dynamic Programming - Hao's Blog</title>
   <meta name="author" content="Hao Zeng">
 
   
-  <meta name="description" content="This is a typical interview question which is going to ask you to implement a stack
-which can track the max/min value for the current stack. The &hellip;">
+  <meta name="description" content="Problem:
+Given a set [1,2,3,4], how many subsets there are in which each sum is equal to 4 ? Solution:
+Solution is programmed using ruby in dynamic &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +20,7 @@ which can track the max/min value for the current stack. The &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://haozeng.github.io/blog/2013/02/10/min-stack">
+  <link rel="canonical" href="http://haozeng.github.io/blog/2013/11/11/dynamic-programming">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Hao's Blog" type="application/atom+xml">
@@ -71,7 +72,7 @@ which can track the max/min value for the current stack. The &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Min_stack</h1>
+      <h1 class="entry-title">Subset Sum Using Dynamic Programming</h1>
     
     
       <p class="meta">
@@ -87,7 +88,7 @@ which can track the max/min value for the current stack. The &hellip;">
   
 
 
-<time datetime="2013-02-10T20:28:21-08:00" pubdate data-updated="true">Feb 10<span>th</span>, 2013</time>
+<time datetime="2013-11-11T14:52:36-08:00" pubdate data-updated="true">Nov 11<span>th</span>, 2013</time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://haozeng.github.io">Comments</a>
@@ -97,8 +98,18 @@ which can track the max/min value for the current stack. The &hellip;">
   </header>
 
 
-<div class="entry-content"><p>This is a typical interview question which is going to ask you to implement a stack
-which can track the max/min value for the current stack. The solution posted here will only show how min-stack is implemented, and max-stack can be developed similarly.</p>
+<div class="entry-content"><p>Problem:
+Given a set [1,2,3,4], how many subsets there are in which each sum is equal to 4 ?</p>
+
+<p>Solution:
+Solution is programmed using ruby in dynamic programming.
+The idea is set up a matrix in which each cell in x axis represents a number in set.
+And in y axis, each cell represent their corresponding sum.</p>
+
+<p>For example, in this case, 1,2,3,4 will be numbered in x axis and 1,2,3,4 (incrementally)
+will be numbered in y axis.</p>
+
+<p>Then we set up boudary condtions. For furthur detailed algorithm, visit <href a='http://en.wikipedia.org/wiki/Dynamic_programming'> Dynamic Programming in wiki. </a></p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -133,71 +144,39 @@ which can track the max/min value for the current stack. The solution posted her
 <span class='line-number'>31</span>
 <span class='line-number'>32</span>
 <span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;pry&#39;</span>
 </span><span class='line'><span class="nb">require</span> <span class="s1">&#39;pp&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;matrix&#39;</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Stack</span>
-</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:stack</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">dynamic_programming</span><span class="p">(</span><span class="n">set</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">sum</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">matrix</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="p">(</span><span class="n">sum</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="n">matrix</span> <span class="o">&lt;&lt;</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span>
-</span><span class='line'>    <span class="vi">@stack</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">0</span><span class="o">.</span><span class="n">.n</span>
+</span><span class='line'>    <span class="n">matrix</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">pop</span>
-</span><span class='line'>    <span class="vi">@stack</span><span class="o">.</span><span class="n">pop</span>
+</span><span class='line'>  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">0</span><span class="o">.</span><span class="n">.sum</span>
+</span><span class='line'>    <span class="n">matrix</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
-</span><span class='line'>    <span class="vi">@stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">peek</span>
-</span><span class='line'>    <span class="vi">@stack</span><span class="o">[-</span><span class="mi">1</span><span class="o">]</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">MinStack</span>
-</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:min_stack</span><span class="p">,</span> <span class="ss">:stack</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span>
-</span><span class='line'>    <span class="vi">@min_stack</span> <span class="o">=</span> <span class="no">Stack</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>    <span class="vi">@stack</span> <span class="o">=</span> <span class="no">Stack</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">if</span> <span class="vi">@stack</span><span class="o">.</span><span class="n">peek</span> <span class="o">&amp;&amp;</span> <span class="vi">@stack</span><span class="o">.</span><span class="n">peek</span> <span class="o">&lt;</span> <span class="n">element</span>
-</span><span class='line'>      <span class="vi">@min_stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="vi">@stack</span><span class="o">.</span><span class="n">peek</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>      <span class="vi">@min_stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">.</span><span class="n">.n</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="o">.</span><span class="n">.sum</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">set</span><span class="o">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>        <span class="n">matrix</span><span class="o">[</span><span class="n">j</span><span class="o">][</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">[</span><span class="n">j</span><span class="o">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>      <span class="k">else</span>
+</span><span class='line'>        <span class="n">matrix</span><span class="o">[</span><span class="n">j</span><span class="o">][</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="n">matrix</span><span class="o">[</span><span class="n">j</span><span class="o">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="n">set</span><span class="o">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="n">matrix</span><span class="o">[</span><span class="n">j</span><span class="o">-</span><span class="n">set</span><span class="o">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]].</span><span class="n">max</span>
+</span><span class='line'>      <span class="k">end</span>
 </span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>    <span class="vi">@stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">pop</span>
-</span><span class='line'>    <span class="vi">@stack</span><span class="o">.</span><span class="n">pop</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;The minimun is </span><span class="si">#{</span><span class="vi">@min_stack</span><span class="o">.</span><span class="n">pop</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">pp</span> <span class="n">matrix</span>
 </span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">min_stack</span> <span class="o">=</span> <span class="no">MinStack</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">min_stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</span><span class='line'><span class="n">min_stack</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'><span class="n">set</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="o">]</span>
+</span><span class='line'><span class="n">sum</span> <span class="o">=</span> <span class="mi">4</span>
+</span><span class='line'><span class="n">n</span> <span class="o">=</span> <span class="mi">4</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dynamic_programming</span><span class="p">(</span><span class="n">set</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">sum</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 </div>
@@ -222,21 +201,15 @@ which can track the max/min value for the current stack. The solution posted her
   
 
 
-<time datetime="2013-02-10T20:28:21-08:00" pubdate data-updated="true">Feb 10<span>th</span>, 2013</time>
+<time datetime="2013-11-11T14:52:36-08:00" pubdate data-updated="true">Nov 11<span>th</span>, 2013</time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/algorithm/'>algorithm</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
-  
-</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://haozeng.github.io/blog/2013/02/10/min-stack/" data-via="" data-counturl="http://haozeng.github.io/blog/2013/02/10/min-stack/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://haozeng.github.io/blog/2013/11/11/dynamic-programming/" data-via="" data-counturl="http://haozeng.github.io/blog/2013/11/11/dynamic-programming/" >Tweet</a>
   
   
   
@@ -245,10 +218,10 @@ which can track the max/min value for the current stack. The solution posted her
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/01/30/multiple-variables-same-value-in-ruby/" title="Previous Post: Create multiple varariables with differentreferences in ruby">&laquo; Create multiple varariables with differentreferences in ruby</a>
+        <a class="basic-alignment left" href="/blog/2013/09/27/rotx-and-compromise/" title="Previous Post: rotx and compromise">&laquo; rotx and compromise</a>
       
       
-        <a class="basic-alignment right" href="/blog/2013/05/08/twitter-streaming-retweets/" title="Next Post: twitter streaming retweets">twitter streaming retweets &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2014/01/05/trees-in-ruby/" title="Next Post: DFS and BFS in ruby using simple tree objects">DFS and BFS in ruby using simple tree objects &raquo;</a>
       
     </p>
   </footer>
@@ -320,8 +293,8 @@ which can track the max/min value for the current stack. The solution posted her
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://haozeng.github.io/blog/2013/02/10/min-stack/';
-        var disqus_url = 'http://haozeng.github.io/blog/2013/02/10/min-stack/';
+        var disqus_identifier = 'http://haozeng.github.io/blog/2013/11/11/dynamic-programming/';
+        var disqus_url = 'http://haozeng.github.io/blog/2013/11/11/dynamic-programming/';
         var disqus_script = 'embed.js';
       
     (function () {

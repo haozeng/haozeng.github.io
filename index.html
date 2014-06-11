@@ -1016,6 +1016,125 @@ tree objects. Here is the an exmaple which DFS and BFS are performed using ruby.
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/11/11/dynamic-programming/">Subset Sum Using Dynamic Programming</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-11T14:52:36-08:00" pubdate data-updated="true">Nov 11<span>th</span>, 2013</time>
+        
+           | <a href="/blog/2013/11/11/dynamic-programming/#disqus_thread"
+             data-disqus-identifier="http://haozeng.github.io/blog/2013/11/11/dynamic-programming/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Problem:
+Given a set [1,2,3,4], how many subsets there are in which each sum is equal to 4 ?</p>
+
+<p>Solution:
+Solution is programmed using ruby in dynamic programming.
+The idea is set up a matrix in which each cell in x axis represents a number in set.
+And in y axis, each cell represent their corresponding sum.</p>
+
+<p>For example, in this case, 1,2,3,4 will be numbered in x axis and 1,2,3,4 (incrementally)
+will be numbered in y axis.</p>
+
+<p>Then we set up boudary condtions. For furthur detailed algorithm, visit <href a='http://en.wikipedia.org/wiki/Dynamic_programming'> Dynamic Programming in wiki. </a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;pry&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;pp&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;matrix&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">dynamic_programming</span><span class="p">(</span><span class="n">set</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">sum</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">matrix</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="p">(</span><span class="n">sum</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="n">matrix</span> <span class="o">&lt;&lt;</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">0</span><span class="o">.</span><span class="n">.n</span>
+</span><span class='line'>    <span class="n">matrix</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">0</span><span class="o">.</span><span class="n">.sum</span>
+</span><span class='line'>    <span class="n">matrix</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">.</span><span class="n">.n</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="o">.</span><span class="n">.sum</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">set</span><span class="o">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>        <span class="n">matrix</span><span class="o">[</span><span class="n">j</span><span class="o">][</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">[</span><span class="n">j</span><span class="o">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>      <span class="k">else</span>
+</span><span class='line'>        <span class="n">matrix</span><span class="o">[</span><span class="n">j</span><span class="o">][</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="n">matrix</span><span class="o">[</span><span class="n">j</span><span class="o">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="n">set</span><span class="o">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="n">matrix</span><span class="o">[</span><span class="n">j</span><span class="o">-</span><span class="n">set</span><span class="o">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">]].</span><span class="n">max</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">pp</span> <span class="n">matrix</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">set</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="o">]</span>
+</span><span class='line'><span class="n">sum</span> <span class="o">=</span> <span class="mi">4</span>
+</span><span class='line'><span class="n">n</span> <span class="o">=</span> <span class="mi">4</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dynamic_programming</span><span class="p">(</span><span class="n">set</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">sum</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/09/27/rotx-and-compromise/">Rotx and Compromise</a></h1>
     
     
@@ -1701,11 +1820,11 @@ which can track the max/min value for the current stack. The solution posted her
       </li>
     
       <li class="post">
-        <a href="/blog/2013/09/27/rotx-and-compromise/">Rotx and Compromise</a>
+        <a href="/blog/2013/11/11/dynamic-programming/">Subset Sum Using Dynamic Programming</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/05/08/twitter-streaming-retweets/">Twitter Streaming Retweets</a>
+        <a href="/blog/2013/09/27/rotx-and-compromise/">Rotx and Compromise</a>
       </li>
     
   </ul>
