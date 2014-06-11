@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Algorithm | Hao's Blog]]></title>
+  <link href="http://haozeng.github.io/blog/categories/algorithm/atom.xml" rel="self"/>
+  <link href="http://haozeng.github.io/"/>
+  <updated>2014-06-10T21:39:47-07:00</updated>
+  <id>http://haozeng.github.io/</id>
+  <author>
+    <name><![CDATA[Hao Zeng]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Min_stack]]></title>
+    <link href="http://haozeng.github.io/blog/2013/02/10/min-stack/"/>
+    <updated>2013-02-10T20:28:21-08:00</updated>
+    <id>http://haozeng.github.io/blog/2013/02/10/min-stack</id>
+    <content type="html"><![CDATA[<p>This is a typical interview question which is going to ask you to implement a stack
+which can track the max/min value for the current stack. The solution posted here will only show how min-stack is implemented, and max-stack can be developed similarly.</p>
+
+<p>```ruby</p>
+
+<p>require &lsquo;pry&rsquo;
+require &lsquo;pp&rsquo;</p>
+
+<p>class Stack
+  attr_reader :stack</p>
+
+<p>  def initialize</p>
+
+<pre><code>@stack = []
+</code></pre>
+
+<p>  end</p>
+
+<p>  def pop</p>
+
+<pre><code>@stack.pop
+</code></pre>
+
+<p>  end</p>
+
+<p>  def push(element)</p>
+
+<pre><code>@stack.push(element)
+</code></pre>
+
+<p>  end</p>
+
+<p>  def peek</p>
+
+<pre><code>@stack[-1]
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>class MinStack
+  attr_reader :min_stack, :stack</p>
+
+<p>  def initialize</p>
+
+<pre><code>@min_stack = Stack.new
+@stack = Stack.new
+</code></pre>
+
+<p>  end</p>
+
+<p>  def push(element)</p>
+
+<pre><code>if @stack.peek &amp;&amp; @stack.peek &lt; element
+  @min_stack.push(@stack.peek)
+else
+  @min_stack.push(element)
+end
+@stack.push(element)
+</code></pre>
+
+<p>  end</p>
+
+<p>  def pop</p>
+
+<pre><code>@stack.pop
+puts "The minimun is #{@min_stack.pop}"
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>min_stack = MinStack.new
+min_stack.push(2)
+min_stack.push(5)</p>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>
