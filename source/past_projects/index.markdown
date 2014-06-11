@@ -9,3 +9,4 @@ footer: true
 
 <li><a href="/past_projects/ivr.html">IVR</a></li>
 <li><a href="/past_projects/merchant_portal.html">Merchant Portal</a></li>
+<li><a href="/past_projects/marqeta.html">Marqeta</a></li>
